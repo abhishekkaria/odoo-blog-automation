@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog Publisher</title>
+</head>
+<body>
+  <h2>Upload Blog</h2>
+  <form id="uploadForm">
+    <input type="text" id="title" placeholder="Blog Title" required><br><br>
+    <!-- <input type="file" id="fileInput" accept=".html" required><br><br> -->
+    <label for="message">Message:</label> &nbsp; &nbsp;<button type="submit">Publish Blog</button>
+    <br><br>
+    <textarea id="message" name="message" rows="50" cols="100"></textarea>
+    
+  </form>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      // alert()
+      e.preventDefault();
+
+      const title = document.getElementById("title").value;
+      const htmlContent = document.getElementById("message").value;
+
+
+      const res = await fetch("https://2keb5fwc7w3ais5yl5mtktqdsi0egntx.lambda-url.us-east-2.on.aws/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ htmlContent, title })
+      });
+
+      const data = await res.json();
+      alert(data.message || "Error uploading blog");
+    });
+  </script>
+</body>
+</html>
